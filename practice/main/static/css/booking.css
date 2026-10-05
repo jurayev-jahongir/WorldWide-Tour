@@ -1,0 +1,503 @@
+.booking-section {
+    padding: 70px 0;
+    background: #f6f8f9;
+    min-height: calc(100vh - 80px);
+}
+
+.booking-container {
+    width: min(1180px, 92%);
+    margin: 0 auto;
+}
+
+
+/* ================= HEADER ================= */
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.booking-label {
+    display: inline-block;
+    margin-bottom: 12px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #087f8c;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.booking-header h1 {
+    margin: 0 0 15px;
+
+    font-size: 40px;
+    line-height: 1.2;
+    color: #162326;
+}
+
+.booking-header p {
+    max-width: 620px;
+    margin: 0 auto;
+
+    color: #718083;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* ================= GRID ================= */
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+
+/* ================= TOUR CARD ================= */
+
+.booking-tour {
+    overflow: hidden;
+
+    background: #ffffff;
+    border-radius: 18px;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+}
+
+.booking-tour-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.booking-tour-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    display: block;
+}
+
+.booking-tour-content {
+    padding: 28px;
+}
+
+.booking-tour-category {
+    color: #087f8c;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+.booking-tour-content h2 {
+    margin: 8px 0 12px;
+
+    font-size: 28px;
+    line-height: 1.25;
+
+    color: #162326;
+}
+
+.booking-tour-content > p {
+    margin-bottom: 25px;
+
+    color: #718083;
+    line-height: 1.6;
+}
+
+
+/* ================= TOUR INFO ================= */
+
+.tour-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    padding: 20px 0;
+
+    border-top: 1px solid #e8eeee;
+    border-bottom: 1px solid #e8eeee;
+}
+
+.tour-info-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.tour-info-item > span {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef8f9;
+    border-radius: 10px;
+
+    font-size: 18px;
+}
+
+.tour-info-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.tour-info-item small {
+    color: #8a999c;
+    font-size: 12px;
+}
+
+.tour-info-item strong {
+    color: #253438;
+    font-size: 14px;
+}
+
+
+/* ================= PRICE ================= */
+
+.booking-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 25px;
+}
+
+.booking-price span {
+    color: #718083;
+    font-size: 14px;
+}
+
+.booking-price strong {
+    color: #087f8c;
+    font-size: 28px;
+}
+
+
+/* ================= FORM ================= */
+
+.booking-form-wrapper {
+    padding: 32px;
+
+    background: #ffffff;
+    border-radius: 18px;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+}
+
+.form-header {
+    margin-bottom: 28px;
+}
+
+.form-header h2 {
+    margin: 0 0 8px;
+
+    color: #162326;
+    font-size: 24px;
+}
+
+.form-header p {
+    margin: 0;
+
+    color: #718083;
+    font-size: 14px;
+}
+
+
+/* ================= FORM GROUP ================= */
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+
+    color: #253438;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border: 1px solid #dce4e5;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #087f8c;
+
+    box-shadow: 0 0 0 3px rgba(8, 127, 140, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group small {
+    margin-top: 6px;
+
+    color: #8a999c;
+    font-size: 12px;
+}
+
+
+/* ================= SUMMARY ================= */
+
+.booking-summary {
+    padding: 20px;
+
+    background: #f6f8f9;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.booking-summary > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.booking-summary span {
+    color: #718083;
+    font-size: 13px;
+}
+
+.booking-summary strong {
+    color: #253438;
+    font-size: 14px;
+    text-align: right;
+}
+
+.booking-summary .summary-total {
+    margin-top: 5px;
+    padding-top: 15px;
+
+    border-top: 1px solid #dce4e5;
+}
+
+.booking-summary .summary-total span {
+    color: #253438;
+    font-weight: 600;
+}
+
+.booking-summary .summary-total strong {
+    color: #087f8c;
+    font-size: 22px;
+}
+
+
+/* ================= BUTTON ================= */
+
+.booking-button {
+    width: 100%;
+
+    padding: 15px 20px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #087f8c;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease,
+                transform 0.2s ease;
+}
+
+.booking-button:hover {
+    background: #066d78;
+    transform: translateY(-1px);
+}
+
+
+/* ================= NOTE ================= */
+
+.booking-note {
+    margin: 0;
+
+    color: #8a999c;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 850px) {
+
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-header h1 {
+        font-size: 32px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .booking-section {
+        padding: 45px 0;
+    }
+
+    .booking-header h1 {
+        font-size: 28px;
+    }
+
+    .booking-tour-content,
+    .booking-form-wrapper {
+        padding: 22px;
+    }
+
+    .booking-tour-image {
+        height: 220px;
+    }
+
+}
+/* ================= PREMIUM BREADCRUMB ================= */
+
+.booking-breadcrumb {
+    max-width: 1180px;
+    margin: 0 auto 34px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    width: fit-content;
+
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 999px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(14px);
+}
+
+.breadcrumb-link,
+.breadcrumb-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    min-height: 38px;
+    padding: 0 16px;
+
+    border-radius: 999px;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.breadcrumb-link {
+    color: #64748b;
+    text-decoration: none;
+    background: transparent;
+
+    transition: 0.25s ease;
+}
+
+.breadcrumb-link:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+.breadcrumb-icon {
+    width: 22px;
+    height: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #2563eb;
+    background: #eaf2ff;
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.breadcrumb-arrow {
+    color: #cbd5e1;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.breadcrumb-current {
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .booking-breadcrumb {
+        width: 100%;
+        border-radius: 18px;
+        justify-content: flex-start;
+        gap: 7px;
+        margin-bottom: 24px;
+    }
+
+    .breadcrumb-link,
+    .breadcrumb-current {
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .breadcrumb-arrow {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,470 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+{% block title %} Tours {% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/tours.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+
+
+
+
+<!-- ================= PAGE HERO ================= -->
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <div class="breadcrumb">
+
+            <a href="{% url 'main:home' %}">
+                Главная
+            </a>
+
+            <span>
+                /
+            </span>
+
+            <span>
+                Туры
+            </span>
+
+        </div>
+
+
+        <div class="page-hero-content">
+
+            <span class="section-label">
+                Путешествия по всему миру
+            </span>
+
+            <h1>
+                Найдите свой
+                <span>идеальный тур</span>
+            </h1>
+
+            <p>
+                Выберите направление, даты и формат отдыха,
+                который подходит именно вам.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TOURS ================= -->
+
+<section class="tours-section">
+
+    <div class="container">
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+            <div class="filter-header">
+
+                <div>
+
+                    <span class="filter-label">
+                        Поиск тура
+                    </span>
+
+                    <h2>
+                        Подберите путешествие
+                    </h2>
+
+                </div>
+
+                <span class="tour-count">
+                    {{sum}} тура
+                </span>
+
+            </div>
+
+
+            <form class="filter-form" method="get" >
+
+
+
+
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Количество человек
+                    </label>
+
+                    <select name="people" id="people">
+                        <option value="">
+                            Все
+                        </option>
+
+                        <option value="1">
+                            1 человек
+                        </option>
+
+                        <option value="2">
+                            2 человека
+                        </option>
+
+                        <option value="3">
+                            3 человека
+                        </option>
+
+                        <option value="4">
+                            4 человека
+                        </option>
+
+                        <option value="5">
+                            5 человек
+                        </option>
+                        <option value="10">
+                            10+ человек
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                        type="submit"
+                        class="filter-btn"
+                >
+                    Найти тур
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+            <div class="tours-layout">
+
+                <form method="get" class="sidebar">
+                <!-- SIDEBAR -->
+
+
+
+
+
+                            <div class="sidebar-block">
+
+                                <h3>
+                                    Сортировка
+                                </h3>
+
+                                <label class="radio-option">
+
+                                    <input
+                                            type="radio"
+                                            name="sort"
+                                            value="popular"
+                                            checked
+                                    >
+
+                                    <span>
+                                        Популярные
+                                    </span>
+
+                                </label>
+
+
+                                <label class="radio-option">
+
+                                    <input
+                                            type="radio"
+                                            name="sort"
+                                            value="cheap"
+                                    >
+
+                                    <span>
+                                        Сначала дешевые
+                                    </span>
+
+                                </label>
+
+
+                                <label class="radio-option">
+
+                                    <input
+                                            type="radio"
+                                            name="sort"
+                                            value="expensive"
+                                    >
+
+                                    <span>
+                                        Сначала дорогие
+                                    </span>
+
+                                </label>
+
+
+                                <label class="radio-option">
+
+                                    <input
+                                            type="radio"
+                                            name="sort"
+                                            value="new"
+                                    >
+
+                                    <span>
+                                        Новые
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="sidebar-block">
+
+                                <h3>
+                                    Цена
+                                </h3>
+
+                                <div class="price-inputs">
+
+                                    <input
+                                            type="number"
+                                            placeholder="От"
+                                            name="min_price"
+                                    >
+
+                                    <span>
+                                        —
+                                    </span>
+
+                                    <input
+                                            type="number"
+                                            placeholder="До"
+                                            name="max_price"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="sidebar-block">
+
+                                <h3>
+                                    Тип отдыха
+                                </h3>
+
+                                {%  for category in categories %}
+                                <label class="checkbox-option">
+
+                                    <input type="checkbox"
+                                    value="{{category.slug}}"
+                                    name="type">
+
+                                    <span>
+                                        {{category.name}}
+                                    </span>
+
+                                </label>
+                                {% endfor %}
+
+                            </div>
+
+
+
+                    <button type="submit"
+                            class="sidebar-submit-btn">
+                        Применить
+                    </button>
+                </form>
+
+
+
+
+            <!-- TOURS GRID -->
+
+            <div class="tours-content">
+
+
+                <div class="results-header">
+
+                    <p>
+                        Найдено
+                        <strong> {{sum}}  тура</strong>
+                    </p>
+
+                    <button class="mobile-filter-btn">
+                        Фильтры
+                    </button>
+
+                </div>
+
+
+                <div class="tours-grid">
+
+
+                    <!-- TOUR 1 -->
+                    {% for tour in page_obj %}
+                        <article class="tour-card">
+
+                            <div class="tour-image">
+
+                                {% for image in tour.image.all %}
+                                    {% if image.is_main %}
+                                        <img src="{{image.img.url}}" alt="{{tour.name}}">
+                                    {% endif %}
+                                {% endfor %}
+
+                                <span class="tour-badge">
+                                    {{tour.category.name}}
+                                </span>
+
+                            </div>
+
+
+                            <div class="tour-content">
+
+                                <div class="tour-category">
+                                    {{tour.description}}
+                                </div>
+
+                                <h3>
+                                    Незабываемый отдых в {% for location in tour.locations.all%} {{location.country}} {% endfor%}
+                                </h3>
+
+                                <p class="tour-description">
+                                    {{tour.description}}
+                                </p>
+
+                                <div class="tour-location">
+                                    {% for location in tour.locations.all%}
+                                    📍{{location.city}}, {{location.country}}
+                                     {% endfor %}
+                                </div>
+
+                                <div class="tour-details">
+
+                                    <span>
+                                        📅 {% for schedule in tour.schedule.all%} {{schedule.duration}} {%endfor%}  дней
+                                    </span>
+
+                                    <span>
+                                        👥 {{tour.free}} мест
+                                    </span>
+
+                                </div>
+
+
+                                <div class="tour-bottom">
+
+                                    <div class="tour-price">
+
+                                        <small>
+                                            от
+                                        </small>
+
+                                        <strong>
+                                            {{tour.price}}
+                                        </strong>
+
+                                        <span>
+                                            $
+                                        </span>
+
+                                    </div>
+
+                                    <a
+                                            href="{% url 'main:tour_detail' tour.slug %}"
+                                            class="tour-btn"
+                                    >
+                                        Подробнее
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+                    {% endfor %}
+
+
+
+                </div>
+
+
+                <!-- PAGINATION -->
+                {% if is_paginated %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{page_obj.previous_page_number}}" class="page active">
+                        Back
+                    </a>
+                    {% endif %}
+                    Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+                    {% if page_obj.has_next %}
+                    <a href="?page={{page_obj.next_page_number}}"class="page next">  Next </a>
+                    {% endif %}
+
+
+
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <div class="container">
+
+        <div class="cta-content">
+
+            <span>
+                Готовы к путешествию?
+            </span>
+
+            <h2>
+                Давайте спланируем
+                ваш следующий отпуск
+            </h2>
+
+            <p>
+                Оставьте заявку — наш специалист свяжется
+                с вами и предложит лучшие варианты.
+            </p>
+            {% if contacts %}
+            {% for info in contacts %}
+            <a href="tel:{{info.phone}}" class="btn btn-light">
+                Получить консультацию
+            </a>
+            {% endfor %}
+            {% else %}
+            <a href="tel:#" class="btn btn-light">
+                Получить консультацию
+            </a>
+            {% endif%}
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+{% endblock %}

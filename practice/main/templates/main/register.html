@@ -1,0 +1,17 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+{% block title %} Register {% endblock %}
+{% block extra_css %}
+<div class="auth-container">
+    <link href="{% static 'css/regster.css' %}" rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block content %}
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Register</button>
+    </form>
+    <p><a href="{% url 'main:login' %}">Did you have already account?</a> </p>
+    </div>
+{% endblock %}

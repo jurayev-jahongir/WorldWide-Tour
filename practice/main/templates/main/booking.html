@@ -1,0 +1,344 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+{% block title %} Booking page {% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/booking.css'%}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+
+<nav class="booking-breadcrumb" aria-label="breadcrumb">
+
+    <a href="{% url 'main:home' %}" class="breadcrumb-link">
+        <span class="breadcrumb-icon">⌂</span>
+        Главная
+    </a>
+
+    <span class="breadcrumb-arrow">›</span>
+
+    <a href="{% url 'main:tours' %}" class="breadcrumb-link">
+        Туры
+    </a>
+
+    <span class="breadcrumb-arrow">›</span>
+
+    <a href="{% url 'main:tour_detail' tour.slug %}" class="breadcrumb-link">
+        {{ tour.name }}
+    </a>
+
+    <span class="breadcrumb-arrow">›</span>
+
+    <span class="breadcrumb-current">
+        Бронирование
+    </span>
+
+</nav>
+<section class="booking-section">
+
+
+
+    <div class="booking-container">
+
+        <!-- HEADER -->
+
+        <div class="booking-header">
+
+            <span class="booking-label">
+                Бронирование тура
+            </span>
+
+            <h1>
+                Забронируйте путешествие
+            </h1>
+
+            <p>
+                Заполните форму, и мы свяжемся с вами
+                для подтверждения бронирования.
+            </p>
+
+        </div>
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="booking-grid">
+
+
+            <!-- TOUR INFORMATION -->
+
+            <div class="booking-tour">
+
+                <div class="booking-tour-image">
+                    {% for i in tour.image.all %}
+                    {% if i.is_main %}
+                    <img
+                            src="{{i.img.url}}"
+                            alt="Тур в Дубай"
+                    >
+                    {% endif %}
+                    {% endfor %}
+
+
+                </div>
+
+
+                <div class="booking-tour-content">
+
+                    <span class="booking-tour-category">
+                        {%for i in tour.locations.all%}{{i.country}} {% endfor %}
+                    </span>
+
+                    <h2>
+                        Незабываемый отдых в {% for info in tour.locations.all%}{{info.country}} {% endfor %}
+                    </h2>
+
+                    <p>
+                        {{tour.description}}
+                    </p>
+
+
+                    <!-- TOUR DETAILS -->
+
+                    <div class="tour-info">
+
+
+                        <div class="tour-info-item">
+
+                            <span>📍</span>
+
+                            <div>
+
+                                <small>
+                                    Направление
+                                </small>
+
+                                <strong>
+                                    {%for i in tour.locations.all%}{{i.city}}, {{i.country}}{%endfor%}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tour-info-item">
+
+                            <span>📅</span>
+
+                            <div>
+
+                                <small>
+                                    Дата поездки
+                                </small>
+
+                                <strong>
+                                    {%for i in tour.schedule.all%}{{i.start_date}}{% endfor%}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tour-info-item">
+
+                            <span>⏱</span>
+
+                            <div>
+
+                                <small>
+                                    Продолжительность
+                                </small>
+
+                                <strong>
+                                    {%for i in tour.schedule.all%}{{i.duration}}{% endfor%}  дней
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tour-info-item">
+
+                            <span>👥</span>
+
+                            <div>
+
+                                <small>
+                                    Свободных мест
+                                </small>
+
+                                <strong>
+                                    {% for info in tour.schedule.all %}{{info.available_places }} {% endfor %}мест
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="booking-price">
+
+                        <span>
+                            Цена за человека
+                        </span>
+
+                        <strong>
+                            {{tour.price}} $
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BOOKING FORM -->
+
+            <div class="booking-form-wrapper">
+
+                <div class="form-header">
+
+                    <h2>
+                        Данные бронирования
+                    </h2>
+
+                    <p>
+                        Укажите необходимую информацию
+                    </p>
+
+                </div>
+
+
+                <form
+                        method="post"
+                        class="booking-form"
+                >
+                    {%csrf_token%}
+
+                    <!-- NUMBER OF PEOPLE -->
+
+                    <div class="form-group">
+
+                        <label for="number_of_people">
+                            Количество людей
+                        </label>
+
+                        <input
+                                type="number"
+                                id="number_of_people"
+                                name="number_of_people"
+                                min="1"
+                                max="{% for info in tour.schedule.all%}{{info.available_places}}{% endfor %}"
+                                value="1"
+                                required
+                        >
+
+                        <small>
+                            Доступно мест: {% for info in tour.schedule.all %} {{info.available_places }} {% endfor %}
+                        </small>
+
+                    </div>
+
+
+                    <!-- COMMENT -->
+
+                    <div class="form-group">
+
+                        <label for="comment">
+                            Комментарий
+                        </label>
+
+                        <textarea
+                                id="comment"
+                                name="comment"
+                                rows="5"
+                                placeholder="Дополнительные пожелания..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- SUMMARY -->
+
+                    <div class="booking-summary">
+
+
+                        <div>
+
+                            <span>
+                                Тур
+                            </span>
+
+                            <strong>
+                                {% for i in tour.locations.all%}{{i.country}}{% endfor%}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Дата
+                            </span>
+
+                            <strong>
+                                {%for i in tour.schedule.all%}{{i.start_date}}{% endfor%}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-total">
+
+                            <span>
+                                Стоимость
+                            </span>
+
+                            <strong>
+                                {{tour.price}} $
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <button
+                            type="submit"
+                            class="booking-button"
+                    >
+                        Забронировать тур
+                    </button>
+
+
+                    <p class="booking-note">
+                        После отправки заявки наш менеджер свяжется
+                        с вами для подтверждения бронирования.
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+{% endblock %}

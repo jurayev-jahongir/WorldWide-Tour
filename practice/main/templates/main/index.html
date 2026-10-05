@@ -1,0 +1,728 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet" type="text/css" >
+{% endblock %}
+{% block content %}
+
+<!--```html-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+
+<!--    <title>TravelGo — Путешествия вашей мечты</title>-->
+
+<!--    <link rel="stylesheet" href="style.css">-->
+
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+
+<!--    <link-->
+<!--            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"-->
+<!--            rel="stylesheet"-->
+<!--    >-->
+<!--</head>-->
+
+<!--<body>-->
+
+
+<!--&lt;!&ndash; ================= HEADER ================= &ndash;&gt;-->
+
+<!--<header class="header">-->
+
+<!--    <div class="container header-inner">-->
+
+<!--        <a href="#" class="logo">-->
+<!--            Travel<span>Go</span>-->
+<!--        </a>-->
+
+<!--        <nav class="nav">-->
+
+<!--            <a href="#" class="nav-link active">-->
+<!--                Главная-->
+<!--            </a>-->
+
+<!--            <a href="#destinations" class="nav-link">-->
+<!--                Направления-->
+<!--            </a>-->
+
+<!--            <a href="#tours" class="nav-link">-->
+<!--                Туры-->
+<!--            </a>-->
+
+<!--            <a href="#about" class="nav-link">-->
+<!--                О нас-->
+<!--            </a>-->
+
+<!--            <a href="#contacts" class="nav-link">-->
+<!--                Контакты-->
+<!--            </a>-->
+
+<!--        </nav>-->
+
+<!--        <a href="#contacts" class="header-btn">-->
+<!--            Связаться с нами-->
+<!--        </a>-->
+
+<!--    </div>-->
+
+<!--</header>-->
+
+
+<!--&lt;!&ndash; ================= HERO ================= &ndash;&gt;-->
+
+<section class="hero">
+
+
+
+    <div class="hero-overlay"></div>
+
+
+    <div class="container hero-content">
+        <form class="hero-logout" method="post" action="{% url 'main:logout' %}">
+            {% csrf_token %}
+
+            <button class="hero-logout__button" type="submit">
+                <svg width="20" height="20" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true" focusable="false">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <path d="m16 17 5-5-5-5M21 12H9"/>
+                </svg>
+
+                <span>Выйти</span>
+            </button>
+        </form>
+
+        <div class="hero-text">
+
+            <span class="hero-label">
+                ✈ Путешествия вашей мечты
+            </span>
+
+            <h1>
+                Откройте мир
+                <span>вместе с нами WorldWide Tour</span>
+            </h1>
+
+            <p>
+                Подберём идеальный тур, организуем путешествие
+                и позаботимся о каждой детали вашего отдыха.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{% url 'main:tours' %}" class="btn btn-primary">
+                    Смотреть туры →
+                </a>
+
+                <a href="#contacts" class="btn btn-outline">
+                    Получить консультацию
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <div class="search-title">
+
+                <h3>
+                    Найдите своё путешествие
+                </h3>
+
+                <p>
+                    Подберите тур по вашим предпочтениям
+                </p>
+
+            </div>
+
+
+            <form class="search-form" method="get" action="{% url 'main:tours' %}">
+
+                <div class="form-group">
+
+                    <label>
+                        Направление
+                    </label>
+
+                    <select name="category">
+
+                        <option value="all">
+                            Все направления
+                        </option>
+                        {% for category in categories %}
+                        <option value="{{category.slug}}">
+                            {{category.name}}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Город
+                    </label>
+
+                    <input
+                            type="text"
+                            placeholder="Например, Дубай"
+                            name="city"
+
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Дата
+                    </label>
+
+                    <input type="date" name="date">
+
+                </div>
+
+
+                <button type="submit" class="search-btn" >
+                    Найти тур
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DESTINATIONS ================= -->
+
+<section class="section" id="destinations">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    Популярные направления
+                </span>
+
+                <h2>
+                    Куда отправимся
+                    <span>в этот раз?</span>
+                </h2>
+
+            </div>
+
+            <a href="{% url 'main:tours' %}" class="view-all">
+                Все направления →
+            </a>
+
+        </div>
+
+
+        <div class="destinations-grid">
+
+
+            <!-- DESTINATION 1 -->
+            {% for tour in page_obj %}
+            <a href="{% url 'main:tour_detail' tour.slug %}" class="destination-card large">
+                {% for i in tour.image.all %}
+                {% if i.is_main %}
+                <img
+                        src="{{i.img.url}}"
+                        alt="{{tour.name}}"
+                >
+                {% endif %}
+                {% endfor %}
+
+                <div class="destination-overlay"></div>
+
+                <div class="destination-info">
+
+                    <span>
+                        {%for info in tour.locations.all%}{{info.country}}{% endfor%}
+                    </span>
+
+                    <h3>
+                        {{tour.name}}
+                    </h3>
+
+                    <p>
+                        От {{tour.price}} $
+                    </p>
+
+                </div>
+
+            </a>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TOURS ================= -->
+
+<section class="section tours-section" id="tours">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    Наши предложения
+                </span>
+
+                <h2>
+                    Популярные
+                    <span>туры</span>
+                </h2>
+
+            </div>
+
+            <a href="{% url 'main:tours'%} " class="view-all">
+                Смотреть все →
+            </a>
+
+        </div>
+
+
+        <div class="tours-grid">
+
+
+            <!-- TOUR 1 -->
+            {% for popular in popular_tours %}
+            <article class="tour-card">
+
+                <div class="tour-image">
+                    {% for i in popular.image.all %}
+                    {% if i.is_main %}
+                    <img
+                            src="{{i.img.url}}"
+                            alt="{{popular.name}}"
+                    >
+                    {% endif%}
+                    {% endfor%}
+
+                    <span class="tour-badge">
+                        Популярный
+                    </span>
+
+                </div>
+
+
+                <div class="tour-content">
+                    {% for info in popular.locations.all %}
+                    <div class="tour-category">
+                        {{info.country}}
+                    </div>
+
+                    <h3>
+                        Незабываемый отдых в {{popular.name}}
+                    </h3>
+
+                    <p class="tour-description">
+                        {{popular.description}}
+                    </p>
+
+                    <div class="tour-location">
+                        📍 {{info.city}}, {{info.country}}
+                    </div>
+                    {% endfor%}
+                    <div class="tour-details">
+
+                        <span>
+                            📅 {%for date in popular.schedule.all%}{{date.duration}} {% endfor%} дней
+                        </span>
+
+                        <span>
+                            👥 {% for i in popular.schedule.all %} {{i.available_places}}{% endfor %} места
+                        </span>
+
+                    </div>
+
+
+                    <div class="tour-bottom">
+
+                        <div class="tour-price">
+
+                            <small>
+                                от
+                            </small>
+
+                            <strong>
+                                {{popular.price}}
+                            </strong>
+
+                            <span>
+                                $
+                            </span>
+
+                        </div>
+
+                        <a href="{% url 'main:tour_detail' popular.slug %} " class="tour-btn">
+                            Подробнее
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+            {% endfor %}
+
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WHY US ================= -->
+
+<section class="why-us" id="about">
+
+    <div class="container">
+
+        <div class="why-grid">
+
+
+            <div class="why-text">
+
+                <span class="section-label">
+                    Почему выбирают нас
+                </span>
+
+                <h2>
+                    Ваш отдых —
+                    <span>наша забота</span>
+                </h2>
+
+                <p>
+                    Мы помогаем путешественникам организовать
+                    комфортный отдых без лишних хлопот.
+                    Подбираем туры индивидуально под ваши
+                    пожелания и бюджет.
+                </p>
+
+                <a href="#contacts" class="btn btn-primary">
+                    Узнать больше →
+                </a>
+
+            </div>
+
+
+            <div class="advantages">
+
+
+                <div class="advantage">
+
+                    <div class="advantage-icon">
+                        ✈
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Большой выбор туров
+                        </h3>
+
+                        <p>
+                            Различные направления и варианты
+                            отдыха по всему миру.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advantage">
+
+                    <div class="advantage-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Надёжность
+                        </h3>
+
+                        <p>
+                            Работаем с проверенными партнёрами
+                            и туристическими компаниями.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advantage">
+
+                    <div class="advantage-icon">
+                        ◆
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Индивидуальный подход
+                        </h3>
+
+                        <p>
+                            Подберём путешествие под ваши
+                            пожелания и бюджет.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advantage">
+
+                    <div class="advantage-icon">
+                        24
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Поддержка 24/7
+                        </h3>
+
+                        <p>
+                            Поможем на каждом этапе вашего
+                            путешествия.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta" id="contacts">
+
+    <div class="container">
+
+        <div class="cta-content">
+
+            <span>
+                Готовы к путешествию?
+            </span>
+
+            <h2>
+                Давайте спланируем
+                ваш следующий отпуск
+            </h2>
+
+            <p>
+                Оставьте заявку — наш специалист свяжется
+                с вами и предложит лучшие варианты.
+            </p>
+            {% if contacts %}
+            {% for info in contacts %}
+            <a href="tel:{{info.phone}}" class="btn btn-light">
+                Получить консультацию
+            </a>
+            {% endfor %}
+            {% else %}
+            <a href="tel:#" class="btn btn-light">
+                Получить консультацию
+            </a>
+            {% endif%}
+        </div>
+
+    </div>
+
+</section>
+
+
+<!--&lt;!&ndash; ================= FOOTER ================= &ndash;&gt;-->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+
+            <div class="footer-brand">
+
+                <a href="#" class="logo">
+                    Travel<span>Go</span>
+                </a>
+
+                <p>
+                    Создаём путешествия,
+                    которые хочется повторить.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Компания
+                </h4>
+
+                <a href="#about">
+                    О нас
+                </a>
+
+                <a href="#tours">
+                    Туры
+                </a>
+
+                <a href="#destinations">
+                    Направления
+                </a>
+
+                <a href="#">
+                    Отзывы
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Помощь
+                </h4>
+
+                <a href="#">
+                    FAQ
+                </a>
+
+                <a href="#">
+                    Условия бронирования
+                </a>
+
+                <a href="#">
+                    Оплата
+                </a>
+
+                <a href="#contacts">
+                    Контакты
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Контакты
+                </h4>
+                {% for contact in contacts %}
+                {% if contact.phone%}
+                <a href="tel:{{contact.phone}}">
+                    {{contact.phone}}
+                </a>
+                {% else %}
+                <a href="tel:##">
+                    <p>Phone not found!</p>
+                </a>
+                {% endif %}
+                {% if contact.email %}
+
+                <a href="{{email}}">
+                    {{contact.email}}
+                </a>
+                {% else %}
+
+                <a href="##">
+                    <p>Not found email!</p>
+                </a>
+                {% endif%}
+
+                <span>
+                    {{contact.address}}
+                </span>
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+            {% for contact in contacts %}
+            <span>
+                © 2026 TravelGo. Все права защищены.
+            </span>
+
+            <div>
+                {% if contact.instagram %}
+                <a href="{{contact.instagram}}">
+                    Instagram
+                </a>
+                {% else %}
+                <a href="#">
+                    Instagram
+                </a>
+                {% endif %}
+                {% if contact.telegram %}
+                <a href="{{contact.telegram}}">
+                    Telegram
+                </a>
+                {% else %}
+
+                <a href="#">
+                    Telegram
+                </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+
+
+{% endblock %}

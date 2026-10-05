@@ -1,0 +1,796 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+{% block title %} Tour Detail {% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/tour_detail.css'%}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/footer.css'%}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+
+
+
+<!-- ================= BREADCRUMB ================= -->
+
+<section class="tour-detail-hero">
+
+    <div class="container">
+        <div class="breadcrumb">
+
+            <a href="{% url 'main:home' %}">
+                Главная
+            </a>
+
+            <span>
+                /
+            </span>
+
+            <a href="{% url 'main:tours' %}">
+                Туры
+            </a>
+            <span>
+                /
+            </span>
+            <span>
+                {{tour.name}}
+            </span>
+
+        </div>
+
+        <div class="breadcrumb">
+
+            <!-- Главная -->
+
+            <!-- Туры -->
+
+            <!-- Название текущего тура -->
+
+        </div>
+
+
+        <!-- ================= TOUR TOP ================= -->
+
+        <div class="tour-top">
+
+
+            <!-- ================= GALLERY ================= -->
+
+            <div class="tour-gallery">
+
+                <!-- Главное изображение -->
+
+                <div class="tour-main-image">
+                    {% for image in tour.image.all %}
+                    {% if image.is_main %}
+                    <img src="{{image.img.url}}" alt="{{image.description}}">
+                    {% endif %}
+                    {% endfor%}
+
+                </div>
+
+
+                <!-- Миниатюры -->
+
+                <div class="tour-thumbnails">
+
+                    <!--
+                    Здесь фотографии тура.
+                    Цикл по TourImage
+                    -->
+                    {% for image in tour.image.all %}
+                    <img src="{{image.img.url}}" alt="{{image.description}}">
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= TOUR INFO ================= -->
+
+            <div class="tour-info">
+
+                <!-- Категория -->
+
+                <div class="tour-category">
+                </div>
+
+
+
+
+                <h1>
+                    {{tour.category.name}}
+                </h1>
+
+
+                <!-- Локации -->
+
+                <div class="tour-meta">
+
+                    <!--
+                    Здесь города/страны тура.
+                    Цикл по locations.
+                    -->
+                    {% for location in locations%}
+                    {{location.country}}, {{location.city}}
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="tour-info-divider"></div>
+
+
+                <!-- Цена -->
+
+                <div class="tour-price">
+
+                    <small>
+                        Стоимость от
+                    </small>
+
+                    <strong>
+                        {{tour.price}}
+                    </strong>
+
+                    <span>
+                        $
+                    </span>
+
+                </div>
+
+
+                <!-- Кнопка бронирования -->
+
+
+                {% for schedule in schedules%}
+                <a href="{% url 'main:booking' tour.slug schedule.id %}" class="schedule-btn">
+                    Забронировать
+                </a>
+                {% endfor%}
+
+                <!-- Краткая информация -->
+
+                <div class="tour-quick-info">
+
+
+                    <!-- Длительность -->
+
+                    <div class="quick-item">
+
+                        <span class="quick-icon">
+                            ◷
+                        </span>
+
+                        <div>
+
+                            <small>
+                                Длительность
+                            </small>
+
+                            <strong>
+                                {% for days in tour.schedule.all %} {{days.duration}} {% endfor %}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Свободные места -->
+
+                    <div class="quick-item">
+
+                        <span class="quick-icon">
+                            👥
+                        </span>
+
+                        <div>
+
+                            <small>
+                                Свободные места
+                            </small>
+
+                            <strong>
+                                {%for info in tour.schedule.all%}{{info.available_places}}{% endfor %}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= DESCRIPTION ================= -->
+
+<section class="tour-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                О туре
+            </span>
+
+            <h2>
+                Подробная информация
+            </h2>
+
+        </div>
+
+
+        <div class="tour-description">
+
+            <!-- Описание тура -->
+            {{ tour.description}}
+
+        </div>
+
+
+        <!-- ================= TOUR FACTS ================= -->
+
+        <div class="tour-facts">
+
+
+            <!-- Локации -->
+
+            <div class="fact-card">
+
+                <span class="fact-icon">
+                    📍
+                </span>
+
+                <div>
+
+                    <small>
+                        Локации
+
+                    </small>
+
+                    <strong>
+                        {% for location in tour.locations.all%}{{location.country}}: {{location.city}} {% endfor %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Свободные места -->
+
+            <div class="fact-card">
+
+                <span class="fact-icon">
+                    👥
+                </span>
+
+                <div>
+
+                    <small>
+                        Свободные места
+                    </small>
+
+                    <strong>
+                        {{tour.free}}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Категория -->
+
+            <div class="fact-card">
+
+                <span class="fact-icon">
+                    🏷
+                </span>
+
+                <div>
+
+                    <small>
+                        Категория
+                    </small>
+
+                    <strong>
+                        {{tour.category}}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= LOCATIONS ================= -->
+
+<section class="tour-section tour-section-light">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                Маршрут
+            </span>
+
+            <h2>
+                Локации тура
+            </h2>
+
+        </div>
+
+        {% for info in locations %}
+        <div class="locations-grid">
+
+
+            <!--
+            Цикл по locations
+
+            Каждая локация:
+
+            - изображение
+            - страна
+            - город
+            - описание
+            -->
+
+            <div class="location-card">
+
+                <div class="location-image">
+
+                    <!-- img -->
+                    <img src="{{info.image.url}}">
+
+                </div>
+
+
+                <div class="location-content">
+
+                    <span>
+                        <!-- страна -->
+                        {{info.country}}
+                    </span>
+
+                    <h3>
+                        <!-- город -->
+                        {{info.city}}
+                    </h3>
+
+                    <p>
+                        <!-- описание -->
+                        {{info.description}}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= INCLUDED ================= -->
+
+<section class="tour-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                Входит в стоимость
+            </span>
+
+            <h2>
+                Что включено
+            </h2>
+
+        </div>
+
+
+        <div class="included-grid">
+        {% for item in tour.included.all %}
+            {% if item.is_active %}
+
+            <!--
+            Цикл по included
+            -->
+
+
+            <div class="included-item">
+
+                <span class="included-check">
+                    ✓
+                </span>
+
+                <div>
+
+                    <h3>
+                        {{item.name}}
+                    </h3>
+
+                    <p>
+                        {{item.description}}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= SCHEDULE ================= -->
+
+<section class="tour-section tour-section-light" id="schedule">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                Даты поездок
+            </span>
+
+            <h2>
+                Расписание тура
+            </h2>
+
+        </div>
+
+
+        <div class="schedule-wrapper">
+
+            {% for info in tour.schedule.all%}
+            <!--
+            Цикл по tour.schedule
+            -->
+
+
+            <div class="schedule-card">
+
+
+                <!-- Дата начала -->
+
+                <div class="schedule-date">
+
+                    <small>
+                        Дата начала
+                    </small>
+
+                    <strong>
+                        {{info.start_date}}
+                    </strong>
+
+                </div>
+
+
+                <!-- Время -->
+
+                <div class="schedule-time">
+
+                    <small>
+                        Время
+                    </small>
+
+                    <strong>
+                        {{info.start_time }}
+                    </strong>
+
+                </div>
+
+
+                <!-- Длительность -->
+
+                <div class="schedule-duration">
+
+                    <small>
+                        Длительность
+
+                    </small>
+
+                    <strong>
+                        {{info.duration}}
+                    </strong>
+                    </strong>
+
+                </div>
+
+
+                <!-- Количество мест -->
+
+                <div class="schedule-places">
+
+                    <small>
+                        Места
+                    </small>
+
+                    <strong>
+                        {{info.available_places}}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- Цена -->
+
+                <div class="schedule-price">
+
+                    <small>
+                        Цена
+                    </small>
+
+                    <strong>
+                        {{info.price}}
+                    </strong>
+
+                </div>
+
+
+                <!-- Бронирование -->
+
+
+
+            </div>
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CTA ================= -->
+
+<section class="tour-cta">
+
+    <div class="container">
+
+        <div class="tour-cta-content">
+
+            <span>
+                Готовы к путешествию?
+            </span>
+
+            <h2>
+                Забронируйте свой тур
+            </h2>
+
+            <p>
+                Выберите подходящую дату и отправляйтесь
+                в путешествие вместе с нами.
+            </p>
+
+            <a href="" class="btn-light">
+                Выбрать дату
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <div class="footer-main">
+
+            <!-- ================= COMPANY ================= -->
+
+            <div class="footer-column footer-about">
+
+                <a href="{% url 'main:home' %}" class="footer-logo">
+                    TravelGo
+                </a>
+
+                <p>
+                    Путешествуйте с комфортом.
+                    Мы поможем подобрать тур,
+                    который подарит незабываемые впечатления.
+                </p>
+
+            </div>
+
+
+            <!-- ================= NAVIGATION ================= -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Навигация
+                </h3>
+
+                <ul>
+
+                    <li>
+                        <a href="{% url 'main:home' %}">
+                            Главная
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'main:tours' %}">
+                            Туры
+
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'main:tours' %}?category={{category}}">
+
+                            Популярные туры
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- ================= INFORMATION ================= -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Информация
+                </h3>
+
+                <ul>
+
+                    <li>
+                        <a href="#">
+                            О компании
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Условия бронирования
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Политика конфиденциальности
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- ================= CONTACTS ================= -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Контакты
+                </h3>
+
+                <ul class="footer-contacts">
+                    {% for info in contacts %}
+                    <li>
+                        <span>📍</span>
+                        {% if info.address %}
+                        <span>
+                            {{info.address}}
+                        </span>
+                        {% else %}
+                        <span>
+                            Not found any address!
+                        </span>
+                        {% endif %}
+                    </li>
+
+                    <li>
+
+                        <span>📞</span>
+                        {% if info.phone %}
+                        <a href="tel:{{info.phone}}">
+                            {{info.phone}}
+                        </a>
+                        {% else %}
+                        <a href="tel:##">
+                            Not found any phone!
+                        </a>
+                        {% endif %}
+                    </li>
+
+                    <li>
+                        <span>✉</span>
+                        {% if info.email %}
+                        <a href="#">
+                            {{info.email}}
+                        </a>
+                        {% else %}
+                        <a href="##">
+                            Not found any email!
+                        </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= FOOTER BOTTOM ================= -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © {% now "Y" %} TravelGo.
+                Все права защищены.
+            </p>
+
+            <div class="footer-socials">
+                {% for info in contacts %}
+                {% if info.telegram %}
+                <a href="{{info.telegram}}" aria-label="Telegram">
+                    Telegram
+                </a>
+                {% endif %}
+                {% if info.instagram %}
+                <a href="{{info.instagram}}" aria-label="Instagram">
+                    Instagram
+                </a>
+                {% endif %}
+              {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+
+
+{% endblock %}
